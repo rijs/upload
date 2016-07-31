@@ -1,0 +1,49 @@
+{
+  "name": "rijs.upload",
+  "version": "0.0.0",
+  "main": "dist",
+  "author": "Pedram Emrouznejad (https://github.com/pemrouz)",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rijs/upload.git"
+  },
+  "scripts": {
+    "ignore": "find ./dist -type f -exec sed -i -E \"s/(function _interopRequire)/\\/* istanbul ignore next *\\/\\n\\1/g\" {} ';'",
+    "babel": "babel src -d dist",
+    "clean": "rm -rf dist && mkdir dist",
+    "build": "npm run clean && npm run babel && npm run ignore",
+    "test": "istanbul test ./node_modules/mocha/bin/_mocha --report html -- -R spec --colors",
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && rm -rf ./coverage --colors",
+    "cov": "istanbul cover ./node_modules/mocha/bin/_mocha -- -R spec --colors",
+    "test-popper": "popper",
+    "version": "npm run build && git add -A",
+    "postversion": "git push && git push --tags"
+  },
+  "license": "pemrouz.mit-license.org",
+  "devDependencies": {
+    "babel-cli": "*",
+    "babel-preset-es2015": "*",
+    "browserify": "*",
+    "browserenv": "*",
+    "chai": "*",
+    "coveralls": "*",
+    "istanbul": "*",
+    "mocha": "*",
+    "mocha-lcov-reporter": "*",
+    "mockery": "^1.4.0",
+    "popper": "*",
+    "rijs.components": "*",
+    "rijs.core": "*",
+    "rijs.css": "*",
+    "rijs.data": "*",
+    "rijs.fn": "*",
+    "rijs.serve": "*",
+    "rijs.shadow": "*",
+    "rijs.sync": "*",
+    "uglify-js": "*"
+  },
+  "dependencies": {
+    "socket.io-stream": "^0.9.0",
+    "utilise": "*"
+  }
+}
