@@ -29,6 +29,10 @@ var _to = require('utilise/to');
 
 var _to2 = _interopRequireDefault(_to);
 
+var _socket = require('socket.io-stream');
+
+var _socket2 = _interopRequireDefault(_socket);
+
 /* istanbul ignore next */
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42,13 +46,13 @@ function upload(ripple) {
     ripple.upload = up(ripple), ripple;
     ripple.upload.log = [];
   } else {
-    ripple.io.on('connection', connected(require('socket.io-stream')));
+    ripple.io.on('connection', connected(ripple, _socket2.default));
   }
 
   return ripple;
 }
 
-var connected = function connected(ss) {
+var connected = function connected(ripple, ss) {
   return function (socket) {
     socket.on('upload', function (meta, res) {
       var id = socket.ip + '-' + meta.time;
@@ -77,18 +81,16 @@ var connected = function connected(ss) {
     });
 
     var end = function end(socket, id) {
-      var type = 'upload';
-      var resource = buffer[id].resource;
-      var value = buffer[id].fields;
-      var time = buffer[id].time;
-      var res = buffer[id].res;
+      var _buffer$id2 = buffer[id];
+      var resource = _buffer$id2.resource;
+      var fields = _buffer$id2.fields;
+      var time = _buffer$id2.time;
+      var res = _buffer$id2.res;
       var from = (0, _key2.default)('resources.' + resource + '.headers.from')(ripple);
-      var name = resource.name;
-
 
       log('finished', id, time);
       if (!from) return err('no handler for', resource);
-      from({ name: name, type: type, value: value, socket: socket }, res);
+      from({ name: resource, type: 'upload', value: fields, socket: socket }, res);
       delete buffer[id];
     };
   };
@@ -121,10 +123,10 @@ var up = function up(ripple) {
         var file = data[name][i],
             size = file.size,
             filename = file.name,
-            stream = ss.createStream();
+            stream = _socket2.default.createStream();
 
-        ss(ripple.io).emit('file', stream, { filename: filename, size: size, name: name, i: i, time: time });
-        ss.createBlobReadStream(file).on('data', function (chunk) {
+        (0, _socket2.default)(ripple.io).emit('file', stream, { filename: filename, size: size, name: name, i: i, time: time });
+        _socket2.default.createBlobReadStream(file).on('data', function (chunk) {
           uploadedSize += chunk.length;
           ret.emit('progress', ~~(uploadedSize / totalSize * 100));
         }).pipe(stream);
