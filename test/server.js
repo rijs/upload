@@ -47,6 +47,6 @@ function from(req, res){
     if (req.value.photos.length !== 1) 
       throw new Error('photos not as expected')
 
-    res(200, 'ok')
+    res([200, 'ok'])
   }
 }
