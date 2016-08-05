@@ -8,13 +8,13 @@ export default function upload(ripple) {
     ripple.upload = up(ripple), ripple
     ripple.upload.log = []
   } else {
-    ripple.io.on('connection', connected(require('socket.io-stream')))
+    ripple.io.on('connection', connected(ripple, ss))
   }
 
   return ripple
 }
 
-const connected = ss => socket => {  
+const connected = (ripple, ss) => socket => {  
   socket.on('upload', (meta, res) => {
     const id = `${socket.ip}-${meta.time}`
     log('uploading form', id)
@@ -102,6 +102,7 @@ import client from 'utilise/client'
 import keys from 'utilise/keys'
 import key from 'utilise/key'
 import to from 'utilise/to'
+import ss from 'socket.io-stream'
 
 const log = require('utilise/log')('[ri/upload]')
     , err = require('utilise/err')('[ri/upload]')
