@@ -34,17 +34,12 @@ const connected = (ripple, ss) => socket => {
   })
 
   const end = (socket, id) => {
-    const type     = 'upload'
-        , resource = buffer[id].resource
-        , value    = buffer[id].fields
-        , time     = buffer[id].time
-        , res      = buffer[id].res
-        , from     = key(`resources.${resource}.headers.from`)(ripple)
-        , { name } = resource
+    const { resource, fields, time, res } = buffer[id]
+        , from  = key(`resources.${resource}.headers.from`)(ripple)
 
     log('finished', id, time)
     if (!from) return err('no handler for', resource)
-    from({ name, type, value, socket }, res)
+    from({ name: resource, type: 'upload', value: fields, socket }, res)
     delete buffer[id]
   }
 }
@@ -79,7 +74,7 @@ const up = ripple => (resource, data) => {
 
         ss(ripple.io).emit('file', stream, { filename, size, name, i, time })
         ss.createBlobReadStream(file)
-          .on('data', function(chunk) {
+          .on('data', chunk => {
             uploadedSize += chunk.length
             ret.emit('progress', ~~(uploadedSize / totalSize * 100))
           })
