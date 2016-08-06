@@ -1,13 +1,13 @@
 import backpressure from 'rijs.backpressure'
 import components from 'rijs.components'
 import versioned from 'rijs.versioned'
-import sessions from 'rijs.sessions'
+// import sessions from 'rijs.sessions'
 import features from 'rijs.features'
 import offline from 'rijs.offline'
 import helpers from 'rijs.helpers'
 import precss from 'rijs.precss'
 import shadow from 'rijs.shadow'
-import resdir from 'rijs.resdir'
+// import resdir from 'rijs.resdir'
 import mysql from 'rijs.mysql'
 import serve from 'rijs.serve'
 import needs from 'rijs.needs'
@@ -39,8 +39,8 @@ export default function create(opts){
   backpressure(ripple)   // restricts broadcast to clients based on need
   features(ripple)       // extend components with features
   versioned(ripple)      // versioning info and time travel
-  sessions(ripple, opts) // populates sessionid on each connection
-  resdir(ripple, opts)   // loads from resources folder
+  // sessions(ripple, opts) // populates sessionid on each connection
+  // resdir(ripple, opts)   // loads from resources folder
   upload(ripple)
 
   return ripple
