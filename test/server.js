@@ -1,4 +1,3 @@
-import 'utilise'
 import rijs from './rijs'
 import popper from 'popper'
 import devnull from 'dev-null'

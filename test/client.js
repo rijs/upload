@@ -1,4 +1,3 @@
-import 'utilise'
 import rijs from './rijs'
 const ripple = rijs()
     , test = require('tap').test
