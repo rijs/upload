@@ -39,7 +39,7 @@ const connected = (ripple, ss) => socket => {
 
     log('finished', id, time)
     if (!from) return err('no handler for', resource)
-    from({ name: resource, type: 'upload', value: fields, socket }, res)
+    from({ name: resource, type: 'UPLOAD', value: fields, socket }, res)
     delete buffer[id]
   }
 }
@@ -84,7 +84,7 @@ const up = ripple => (resource, data) => {
 
   function done() {
     log('uploaded', time, arguments)
-    ret.emit('response', arguments)
+    ret.emit('response', to.arr(arguments))
     delete ripple.upload.log[time]
   }
 

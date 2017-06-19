@@ -90,7 +90,7 @@ var connected = function connected(ripple, ss) {
 
       log('finished', id, time);
       if (!from) return err('no handler for', resource);
-      from({ name: resource, type: 'upload', value: fields, socket: socket }, res);
+      from({ name: resource, type: 'UPLOAD', value: fields, socket: socket }, res);
       delete buffer[id];
     };
   };
@@ -135,7 +135,7 @@ var up = function up(ripple) {
 
     function done() {
       log('uploaded', time, arguments);
-      ret.emit('response', arguments);
+      ret.emit('response', _to2.default.arr(arguments));
       delete ripple.upload.log[time];
     }
 
